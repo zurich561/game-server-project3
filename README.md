@@ -1,4 +1,4 @@
-# Wordle – Full-Stack Web Application
+# Wordle — Full-Stack Web App - Project 3
 
 This repository contains a full-stack implementation of the classic **Wordle** game.
 
