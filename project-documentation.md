@@ -54,7 +54,7 @@ Expected backend URL:
 ### 3) Run the Frontend (React + Vite)
 
 **Requirements**
-- Node.js (LTS)
+- Node.js (LTS) version: 22.16.0
 - npm
 
 ```bash
