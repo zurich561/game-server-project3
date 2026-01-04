@@ -112,7 +112,7 @@ public class Service {
                 opts.put("round", round + 1);
 
                 // check if result is correct
-                evaluateResult(game, solution, guess, round);
+                evaluateResult(game, solution, guess, round + 1);
 
                 // save new game options and return
                 try {

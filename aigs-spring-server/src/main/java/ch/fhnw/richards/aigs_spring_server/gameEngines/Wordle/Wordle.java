@@ -7,14 +7,7 @@ import java.util.List;
 
 import ch.fhnw.richards.aigs_spring_server.game.Game;
 import ch.fhnw.richards.aigs_spring_server.gameEngines.GameEngine;
-import ch.fhnw.richards.aigs_spring_server.gameEngines.TicTacToe.MinimaxPlayer;
-import ch.fhnw.richards.aigs_spring_server.gameEngines.TicTacToe.RandomPlayer;
-import ch.fhnw.richards.aigs_spring_server.gameEngines.TicTacToe.ttt_ai;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ch.fhnw.richards.aigs_spring_server.gameEngines.Wordle.Service;
 
 public class Wordle implements GameEngine {
     Service service = new Service();
@@ -34,16 +27,16 @@ public class Wordle implements GameEngine {
                 wordLength = 5;
                 break;
             case 2:
-                game.setBoard(new long[6][7]);
-                wordLength = 7;
+                game.setBoard(new long[6][6]);
+                wordLength = 6;
                 break;
             case 3:
-                game.setBoard(new long[6][9]);
-                wordLength = 9;
+                game.setBoard(new long[6][7]);
+                wordLength = 7;
                 break;         
             case 4:
-                game.setBoard(new long[6][12]);
-                wordLength = 12;
+                game.setBoard(new long[6][9]);
+                wordLength = 9;
                 break;       
             default:
                 game.setBoard(new long[6][5]);
@@ -62,6 +55,7 @@ public class Wordle implements GameEngine {
             wordleOpts.put("wordLength", wordLength);
             wordleOpts.put("round", 0);
             wordleOpts.put("maxTries", 6);
+            wordleOpts.put("currentWordExists", true);
             json = mapper.writeValueAsString(wordleOpts);
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,11 +66,23 @@ public class Wordle implements GameEngine {
 		return game;
 	}
 
+    @SuppressWarnings("unchecked")
     @Override
 	public Game move(Game game, HashMap<String, String> move) {
         // Check if the word exists
         try {
-            service.CheckWordExistence(move.get("guess"));
+            ObjectMapper mapper = new ObjectMapper();
+            HashMap<String, Object> opts = null;
+            opts = mapper.readValue(game.getOptions(), HashMap.class);
+            if (service.CheckWordExistence(move.get("guess")) == false) {
+                opts.put("currentWordExists", false);
+                game.setOptions(mapper.writeValueAsString(opts));
+                return game;
+            } else {
+                opts.put("currentWordExists", true);
+                game.setOptions(mapper.writeValueAsString(opts));
+            }
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
