@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-AigsServerApplication<AIGS-Server>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "ch.fhnw.richards.aigs_spring_server.AigsServerApplication",
+            "projectName": "AIGS-Server",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
